@@ -1,4 +1,5 @@
 #include <iostream>
+
 int x = 0;
 
 void X() {
