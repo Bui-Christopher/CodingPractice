@@ -24,6 +24,5 @@ for(int i=2;  i<=n ; i++)
         std::cout <<i << " ";
     }
 
-    
     return 0;
 }
