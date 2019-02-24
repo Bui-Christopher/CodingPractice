@@ -42,6 +42,5 @@ int main() {
     P();
     P();
 
-
     return 0;
 }
