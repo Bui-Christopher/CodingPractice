@@ -36,6 +36,7 @@ int main(int argc, char** argv)
         myfile << age << "\r\n";
         myfile << userName << "\r\n";
     }
+    
     else
     
     std::cout << "Your name is: " << name << ". Your age is: " << age
