@@ -1,0 +1,38 @@
+//Helper Function
+void swap(int *x, int *y) {
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+//Iterative approach
+void selectionSort(int arr[], int n) {
+
+	for (int i = 0; i < n; i++) {
+		int minIndex = i;
+
+		for (int j = i + 1; j < n; j++) {
+			if (arr[j] < arr[minIndex])
+				minIndex = j;
+		}
+		swap(&arr[minIndex], &arr[i]);
+	}
+}
+
+//Recursive approach
+void selectionSortRecursive(int arr[], int n) {
+	if (n <= 1)
+		return;
+
+	for (int i = 0; i < n; i++) { //go through entire list
+		int minIndex = i;
+
+		for (int j = i + 1; j < n; j++) { //find smallest element
+			if (arr[j] < arr[minIndex])
+				minIndex = j;
+
+		}
+		swap(&arr[minIndex], &arr[i]);
+	}
+	selectionSortRecursive(arr, n - 1);
+}
