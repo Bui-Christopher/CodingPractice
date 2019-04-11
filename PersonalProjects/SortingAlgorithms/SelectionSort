@@ -20,4 +20,18 @@ void selectionSort(int arr[], int n) {
 }
 
 //Recursive approach
+void selectionSortRecursive(int arr[], int n, int index) {
 
+	if (n- 1 == index) //dont check the last one, should be in place
+		return;
+
+	int min = index;
+	//finding minimum index of minimum value
+	for (int i = index + 1 ; i < n; i++) {
+		if (arr[i] < arr[min]) {
+			min = i;
+		}
+	}
+	swap(&arr[min], &arr[index]);
+	selectionSortRecursive(arr, n, index + 1);
+}
