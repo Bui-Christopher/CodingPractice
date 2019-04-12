@@ -1,13 +1,15 @@
 # cPlusPlus
-Learning how to code in C++ through projects and guides.
+Learning how to code in C++ through projects, guides, and classes.
 
-Projects include:
+The following are included:
 
-DailyProgrammer, CodeForces, Data Structures Class, and Personal Projects:
+DailyProgrammer, CodeForces, , HackerRank, Data Structures Class, and Personal Projects:
 
 https://www.reddit.com/r/dailyprogrammer/
 
 https://codeforces.com/problemset
+
+https://www.hackerrank.com/domains/data-structures
 
 CPSC 131 - Data Structures
 
