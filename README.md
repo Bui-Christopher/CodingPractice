@@ -15,4 +15,8 @@ https://leetcode.com
 
 CPSC 131 - Data Structures
 
+CPSC 240 - Assembly Language
+
+CPSC 335 - Algorithm Engineering
+
 Personal Projects!
