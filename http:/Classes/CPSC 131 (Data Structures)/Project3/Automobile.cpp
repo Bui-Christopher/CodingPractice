@@ -48,5 +48,5 @@ std::ostream & operator<<(std::ostream& stream, const Automobile& vehicle)
 			<< vehicle.plateNumber_;
 
 	return stream;
-
+	
 }
