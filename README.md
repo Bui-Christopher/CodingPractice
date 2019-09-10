@@ -1,5 +1,5 @@
 # cPlusPlus
-Learning how to code in C++ through projects, guides, and classes.
+Learning how to code through projects, guides, and classes.
 
 The following are included:
 
@@ -17,6 +17,10 @@ CPSC 131 - Data Structures
 
 CPSC 240 - Assembly Language
 
+CPSC 323 - Compilers
+
 CPSC 335 - Algorithm Engineering
+
+CPSC 351 - Operating Systems
 
 Personal Projects!
