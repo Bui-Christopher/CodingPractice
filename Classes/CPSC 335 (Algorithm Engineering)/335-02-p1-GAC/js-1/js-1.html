@@ -1,0 +1,309 @@
+
+<!doctype html><html><head>
+<title>This is an HTML canvas</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body><h1>Algorithm Engineering, CS-335-02 Project #1 Cella Ant 12  </h1>
+<h4>Team GAC: Graciela Orozco, Arley De Leon, Christopher Bui</h4>
+<canvas id="grid" width="410" height="410"></canvas>
+
+</body>
+<script src="../assets/draw-stuff.js"></script>
+<script>
+
+
+/* ~Contact Information~
+Garciela Orozco     email here
+Arley De Leon       email here
+Christopher Bui     ChristopherBui125@csu.fullerton.edu
+
+~Description~
+An ant(triangle) crawls on a 2D grid (41x41) where each cell has a color (initially all black),
+and changes as the ant passes. The direction in which the ant turns is determined by the colors
+of square it is on. Black and red has the ant turn right while yellow and blue ahs the ant turning
+left. Our program shows over 40,000 steps.
+*/
+
+// Group Project Functions
+
+//Triangle -> Marker
+//Square -> Color on Grid
+function draw_triangle( rctx, rp1x, rp1y, rp2x, rp2y, rp3x, rp3y ) {
+    rctx.save( );
+    rctx.fillStyle = 'white';
+    // BL Triangle.
+    rctx.beginPath( );
+    rctx.moveTo( rp1x, rp1y ); // 50, 250
+    rctx.lineTo( rp2x, rp2y ); // 50, 350
+    rctx.lineTo( rp3x, rp3y ); // 150, 350
+    rctx.closePath();
+    rctx.stroke();
+    rctx.fill();
+
+    rctx.translate(50, 100);
+    rctx.rotate(20 * Math.PI / 180);
+    rctx.translate(50, -100);
+
+    rctx.restore( );
+}
+function draw_square(rctx, rp1x, rp1y, rp2x, rp2y, rp3x, rp3y, rp4x, rp4y, rp5x, rp5y, color) {
+  rctx.save( );
+  rctx.fillStyle = color;
+  rctx.beginPath( );
+  rctx.moveTo( rp1x, rp1y ); // 50, 250
+  rctx.lineTo( rp2x, rp2y ); // 50, 350
+  rctx.lineTo( rp3x, rp3y ); // 150, 350
+  rctx.lineTo( rp4x, rp4y ); // 150, 350
+  rctx.lineTo( rp5x, rp5y ); // 150, 350
+  rctx.closePath();
+  rctx.stroke();
+  rctx.fill();
+
+  rctx.translate(50, 100);
+  rctx.rotate(20 * Math.PI / 180);
+  rctx.translate(50, -100);
+
+  rctx.restore( );
+}
+
+//Points of our Triangle with reference to our location on grid
+function set_triangle(ctx, direction, locX, locY) {
+  var p1x, p1y, p2x, p2y, p3x, p3y = 0;
+  if (direction == "Left") {
+    p1x = 0 + locX;
+    p1y = 5 + locY;
+    p2x = 10 + locX;
+    p2y = 0 + locY;
+    p3x = 10 + locX;
+    p3y = 10 + locY;
+  } else if (direction == "Up") {
+    p1x = 0 + locX;
+    p1y = 10 + locY;
+    p2x = 5 + locX;
+    p2y = 0 + locY;
+    p3x = 10 + locX;
+    p3y = 10 + locY;
+  } else if (direction == "Down") {
+    p1x = 0 + locX;
+    p1y = 0 + locY;
+    p2x = 5 + locX;
+    p2y = 10 + locY;
+    p3x = 10 + locX;
+    p3y = 0 + locY;
+ } else if (direction == "Right") {
+    p1x = 0 + locX;
+    p1y = 0 + locY;
+    p2x = 0 + locX;
+    p2y = 10 + locY;
+    p3x = 10 + locX;
+    p3y = 5 + locY;
+  }
+  draw_triangle(ctx, p1x, p1y, p2x, p2y, p3x, p3y);
+}
+function set_square(ctx, locX, locY, color) {
+  var rp1x, rp1y, rp2x, rp2y, rp3x, rp3y, rp4x, rp4y, rp5x, rp5y;
+  rp1x = 0 + locX;
+  rp1y = 0 + locY;
+  rp2x = 10 + locX;
+  rp2y = 0 + locY;
+  rp3x = 10 + locX;
+  rp3y = 10 + locY;
+  rp4x = 0 + locX;
+  rp4y = 10 + locY;
+  rp5x = 0 + locX;
+  rp5y = 0 + locY;
+  draw_square(ctx, rp1x, rp1y, rp2x, rp2y, rp3x, rp3y, rp4x, rp4y, rp5x, rp5y, color);
+  // draw_square(context, 0, 0, 10, 0, 10, 10, 0, 10, 0, 0);
+}
+
+// paint the squares onto the grid based on the 2D array
+function gridSquares(ctx, arr) {
+  for (var i = 0; i < 41; i++) {
+    for (var j = 0; j < 41; j++) {
+      if (arr[j][i] == 0) {
+        set_square(context, i * 10, j * 10, "black");
+      } else if (arr[j][i] == 1) {
+        set_square(context, i * 10, j * 10, "red");
+      } else if (arr[j][i] == 2) {
+        set_square(context, i * 10, j * 10, "yellow");
+      } else if (arr[j][i] == 3) {
+        set_square(context, i * 10, j * 10, "blue");
+      }
+    }
+  }
+}
+
+// main function: creates 2D array, traverse, and paint grid
+function create2DArray(ctx, facing, x_pos, y_pos, iterations) {
+  // initalize 2D array with 0
+  var arr = new Array(41);
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = new Array(41);
+  }
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr.length; j++) {
+      arr[i][j] = 0;
+    }
+  }
+
+/*loop through for number of iterations
+Facing...
+left = 0
+down = 1
+right = 2
+up = 3
+*/
+
+  for ( var i = 0; i < iterations; i++ ) {
+    if ( arr[x_pos][y_pos] == 0) {  //on black square
+      if (facing == 0) { //facing left, turn right
+        arr[x_pos][y_pos] = 1;  //change to red
+        x_pos--; //move on grid
+        facing = 3; //facing up
+      }
+
+      else if ( facing == 1) { //facing down, tun right
+        arr[x_pos][y_pos] = 1; //change to red
+        y_pos--; //move on grid
+        facing = 0; //facing left
+      }
+
+      else if (facing == 2) { //facing right, turn right
+        arr[x_pos][y_pos] = 1;  //change to red
+        x_pos++; //move on grid
+        facing = 1; //facing down
+      }
+      else if (facing == 3) {  //facing up, turn right
+        arr[x_pos][y_pos] = 1;  //change to red
+        y_pos++; //move on grid
+        facing = 2; //facing right
+      }
+    }
+
+    else if (arr[x_pos][y_pos] == 1) { //on red square
+      if (facing == 0) { //facing left, turn right
+        arr[x_pos][y_pos] = 2;  //change to yellow
+        x_pos--; //move on grid
+        facing = 3; //facing up
+      }
+
+      else if ( facing == 1) { //facing down, tun right
+        arr[x_pos][y_pos] = 2; //change to yellow
+        y_pos--; //move on grid
+        facing = 0; //facing left
+      }
+
+      else if (facing == 2) { //facing right, turn right
+        arr[x_pos][y_pos] = 2; //change to yellow
+        x_pos++; //move on grid
+        facing = 1; //facing down
+      }
+      else if (facing == 3) {  //facing up, turn right
+        arr[x_pos][y_pos] = 2; //change to yellow
+        y_pos++; //move on grid
+        facing = 2; //facing right
+      }
+    }
+
+
+    else if ( arr[x_pos][y_pos] == 2) {  //on yellow square
+        if ( facing == 0 ) {  //facing left, turn left
+          arr[x_pos][y_pos] = 3;  //change to blue
+          x_pos++;  //move on grid
+          facing = 1; //face down
+        }
+        else if ( facing == 1) { //facing down, turn left
+          arr[x_pos][y_pos] = 3;  //change to blue
+          y_pos++; //move on grid
+          facing = 2; //face right
+        }
+        else if (facing == 2) { //facing right, turn left
+          arr[x_pos][y_pos] = 3;  //change to blue
+          x_pos--; //move on grid
+          facing = 3; //facing up
+        }
+        else if (facing == 3) { //facing up, turn left
+          arr[x_pos][y_pos] = 3;  //change to blue
+          y_pos--; //move on grid
+          facing = 0; //facing left
+        }
+      }
+
+      else if ( arr[x_pos][y_pos] == 3) {  //on blue square
+          if ( facing == 0 ) {  //facing left, turn left
+            arr[x_pos][y_pos] = 0;  //change to black
+            x_pos++;  //move on grid
+            facing = 1; //face down
+          }
+          else if ( facing == 1) { //facing down, turn left
+            arr[x_pos][y_pos] = 0;  //change to black
+            y_pos++; //move on grid
+            facing = 2; //face right
+          }
+          else if (facing == 2) { //facing right, turn left
+            arr[x_pos][y_pos] = 0;  //change to black
+            x_pos--; //move on grid
+            facing = 3; //facing up
+          }
+          else if (facing == 3) { //facing up, turn left
+            arr[x_pos][y_pos] = 0;  //change to black
+            y_pos--; //move on grid
+            facing = 0; //facing left
+          }
+        }
+      }
+
+      gridSquares(context, arr);
+
+  //printing Marker coordinates
+  //printing Marker direction
+  //printing Marker Square Color
+  document.write("<br>");
+  document.write("<br>");
+  if (facing == 0)
+    var stringFacing = "Left";
+  if (facing == 1)
+    var stringFacing = "Down";
+  if (facing == 2)
+    var stringFacing = "Right";
+  if (facing == 3)
+    var stringFacing = "Up";
+
+  if (arr[x_pos][y_pos] == 0)
+    var squareColor = "Black";
+  if (arr[x_pos][y_pos] == 1)
+    var squareColor = "Red";
+  if (arr[x_pos][y_pos] == 2)
+    var squareColor = "Yellow";
+  if (arr[x_pos][y_pos] == 3)
+    var squareColor = "Blue";
+
+
+  document.write("Marker Coordinate: " + y_pos + "," + x_pos);
+  document.write("<br>");
+  document.write("Marker is Facing: " + stringFacing);
+  document.write("<br>");
+  document.write("On Square Color: " + squareColor);
+  // Printing 2d_Array
+  document.write("<br>");
+  document.write("<br>");
+  for (var i = 0; i < 41; i++) {
+    for (var j = 0; j < 41; j++)    { //blue squ
+      // when printing, realize that the double for loop writes each column per row
+      // this is inverted for us to match and understand it our way
+      document.write(arr[i][j] + " ");
+    }
+    document.write("<br>");
+  }
+  set_triangle(context, stringFacing, y_pos*10, x_pos*10)
+}
+// =====================================================  Main ====
+  var canvas = document.getElementById( "grid" );
+  var context = canvas.getContext( "2d" );
+
+    draw_grid( context, 10, 50, 'white', 'yellow' );
+    create2DArray(context, 0, 20, 20, 42255);
+
+
+</script>
+</html>
