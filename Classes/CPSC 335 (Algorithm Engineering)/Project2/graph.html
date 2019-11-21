@@ -1,0 +1,268 @@
+<!doctype html><html><head>
+<title>Project #2</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body><h1>Project #2</h1>
+  <h2>Christopher Bui</h2>
+<canvas id = "grid" width="400" height="400"></canvas>
+</body>
+<script>
+
+var canvas = document.getElementById( "grid" );
+var context = canvas.getContext( "2d" );
+
+class Node {
+  constructor (n, val1, val2, val3, p1, p2) {
+    this.name = n;
+    this.x = val1;
+    this.y = val2;
+    this.z = val3;
+
+    this.x_coor = p1;
+    this.y_coor = p2 *1.25;
+
+    this.residue = Math.abs(val1-val2) + Math.abs(val2-val3) + Math.abs(val3-val1);
+  }
+}
+class Graph {
+  constructor() {
+    this.adj_list = new Map();
+  }
+  add_node(node) {
+    this.adj_list.set(node, []);
+    draw_node( context, node.x_coor, node.y_coor );
+  }
+  add_edge(node1, node2) {
+    this.adj_list.get(node1).push(node2);
+    this.adj_list.get(node2).push(node1);
+    draw_edge( context, node1.x_coor, node1.y_coor, node2.x_coor, node2.y_coor );
+  }
+  generate_nodes() {
+    /*Names are related by their x,y,z numbers.
+    0 -> 0    9 -> 9
+    1 -> 1    10 -> A
+    2 -> 2    11 -> B
+    3 -> 3    12 -> C
+    4 -> 4    13 -> D
+    5 -> 5    14 -> E
+    6 -> 6    15 -> F
+    7 -> 7    16 -> G
+    8 -> 8
+    */
+    let node_0 = new Node("G00", 16, 0, 0, 25, 120);
+    let node_1 = new Node("097", 0, 9, 7, 50, 160);
+    let node_2 = new Node("718", 7, 1, 8, 80, 225);
+    let node_3 = new Node("880", 8, 8, 0, 105, 260);
+    let node_4 = new Node("088", 0, 8, 8, 155, 250);
+    let node_5 = new Node("E02", 14, 0, 2, 210, 240);
+    let node_6 = new Node("268", 2, 6, 8, 170, 300);
+    let node_7 = new Node("A06", 10, 0, 6, 95, 290);
+    let node_8 = new Node("196", 1, 9, 6, 45, 250);
+    let node_9 = new Node("178", 1, 7, 8, 45, 290);
+    let node_10 = new Node("907", 0, 0, 7, 105, 145);
+    let node_11 = new Node("691", 6, 9, 1, 145, 90);
+    let node_12 = new Node("A60", 10, 6, 0, 75, 120);
+    let node_13 = new Node("B50", 11, 5, 0, 170, 200);
+    let node_14 = new Node("B05", 10, 0, 5, 130, 210);
+    let node_15 = new Node("538", 5, 3, 8, 120, 185);
+    let node_16 = new Node("790", 7, 9, 0, 110, 60);
+    let node_17 = new Node("C04", 12, 0, 4, 200, 30);
+    let node_18 = new Node("E20", 14, 2, 0, 300, 60);
+    let node_19 = new Node("D03", 13, 0, 3, 330, 125);
+    let node_20 = new Node("D30", 13, 3, 0, 300, 180);
+    let node_21 = new Node("358", 3, 5, 8, 260, 255);
+    let node_22 = new Node("493", 4, 9, 3, 245, 210);
+    let node_23 = new Node("C40", 12, 4, 0, 255, 160);
+    let node_24 = new Node("448", 4, 4, 8, 220, 175);
+    let node_25 = new Node("808", 8, 0, 8, 270, 110);
+    let node_26 = new Node("592", 5, 9, 2, 325, 240);
+    let node_27 = new Node("628", 6, 2, 8, 375, 210);
+    let node_28 = new Node("295", 2, 9, 5, 375, 155);
+    let node_29 = new Node("F01", 15, 0, 1, 230, 105);
+    let node_30 = new Node("F10", 15, 1, 0, 225, 75);
+    let node_31 = new Node("970", 9, 7, 0, 50, 75);
+    let node_32 = new Node("394", 3, 9, 4, 110, 30);
+
+    this.add_node(node_0);
+    this.add_node(node_1);
+    this.add_node(node_2);
+    this.add_node(node_3);
+    this.add_node(node_4);
+    this.add_node(node_5);
+    this.add_node(node_6);
+    this.add_node(node_7);
+    this.add_node(node_8);
+    this.add_node(node_9);
+    this.add_node(node_10);
+    this.add_node(node_11);
+    this.add_node(node_12);
+    this.add_node(node_13);
+    this.add_node(node_14);
+    this.add_node(node_15);
+    this.add_node(node_16);
+    this.add_node(node_17);
+    this.add_node(node_18);
+    this.add_node(node_19);
+    this.add_node(node_20);
+    this.add_node(node_21);
+    this.add_node(node_22);
+    this.add_node(node_23);
+    this.add_node(node_24);
+    this.add_node(node_25);
+    this.add_node(node_26);
+    this.add_node(node_27);
+    this.add_node(node_28);
+    this.add_node(node_29);
+    this.add_node(node_30);
+    this.add_node(node_31);
+    this.add_node(node_32);
+
+    //Follows DFS on img/program for debugging
+    //Order in which edges are added, doesn't matter.
+    this.add_edge(node_0, node_1);
+    this.add_edge(node_1, node_2);
+    this.add_edge(node_2, node_3);
+    this.add_edge(node_3, node_4);
+    this.add_edge(node_4, node_5);
+    this.add_edge(node_5, node_6);
+    this.add_edge(node_6, node_7);
+    this.add_edge(node_7, node_8);
+    this.add_edge(node_8, node_9);
+    this.add_edge(node_2, node_10);
+    this.add_edge(node_10, node_11);
+    this.add_edge(node_10, node_12);
+    this.add_edge(node_10, node_13);
+    this.add_edge(node_13, node_14);
+    this.add_edge(node_14, node_15);
+    this.add_edge(node_0, node_16);
+    this.add_edge(node_16, node_17);
+    this.add_edge(node_17, node_18);
+    this.add_edge(node_18, node_19);
+    this.add_edge(node_19, node_20);
+    this.add_edge(node_20, node_21);
+    this.add_edge(node_21, node_22);
+    this.add_edge(node_22, node_23);
+    this.add_edge(node_23, node_24);
+    this.add_edge(node_24, node_25);
+    this.add_edge(node_21, node_26);
+    this.add_edge(node_26, node_27);
+    this.add_edge(node_27, node_28);
+    this.add_edge(node_18, node_29);
+    this.add_edge(node_29, node_30);
+    this.add_edge(node_0, node_31);
+    this.add_edge(node_31, node_32);
+    this.add_edge(node_17, node_30);
+    this.add_edge(node_20, node_22);
+  }
+  print_adjacency()  {
+    let get_keys = this.adj_list.keys();
+    console.log("Printing adjacency list")
+    // iterate over the nodes
+    for (let i of get_keys)
+    {
+        // get the corresponding adjacency list
+        let get_values = this.adj_list.get(i);
+        let conc = "";
+
+        // iterate over the adjacency list
+        // concatenate the values into a string
+        for (let j of get_values)
+            conc += j.name + " ";
+
+        // print the node name and its adjacency list
+        console.log(i.name + " -> " + conc);
+    }
+  }
+  BFS() {
+    let starting_node = this.adj_list.keys().next().value; //Get the first node pushed into map.
+    let visited = [];
+    let smallest = [];
+    smallest.push(starting_node);
+
+    console.log("\nBreadth-First Search");
+    this.BFS_helper(starting_node, visited, smallest);
+
+    setTimeout (function () {
+      console.log("Smallest node is at " + smallest[0].name + " with residue of " + smallest[0].residue + '.');
+      draw_node( context, smallest[0].x_coor, smallest[0].y_coor, "blue" );
+
+      context.save();
+      context.fillStyle = 'lightgrey';
+      context.fillText( "Smallest: " + smallest[0].name, 160, 190);
+      context.restore();
+    }, 7600);
+  }
+  BFS_helper(node, visited, smallest) {
+    visited.push(node);
+    let neighbors = this.adj_list.get(node); //create array of adjacent nodes
+    console.log(node.name);
+    draw_node( context, node.x_coor, node.y_coor, "green" );
+
+    if (node.residue < smallest[0].residue)
+    smallest[0] = node;
+
+    for (let i in neighbors) {
+      if (!visited.includes(neighbors[i]))  //if adjacent nodes have not been visited, explore them.
+        setTimeout(function(){ graph.BFS_helper(neighbors[i], visited, smallest); }, 750);//can add a check to ensure it follows 4 rules with boolean here...
+    }
+  }
+}
+
+function draw_grid( rctx, rminor, rmajor, rstroke, rfill  )  {
+    rctx.save( );
+    rctx.strokeStyle = rstroke;
+    rctx.fillStyle = rfill;
+    let width = rctx.canvas.width;
+    let height = rctx.canvas.height;
+    for ( var ix = 0; ix < width; ix += rminor )
+    {
+        rctx.beginPath( );
+        rctx.moveTo( ix, 0 );
+        rctx.lineTo( ix, height );
+        rctx.lineWidth = ( ix % rmajor == 0 ) ? 0.5 : 0.25;
+        rctx.stroke( );
+  //numbers      if ( ix % rmajor == 0 ) { rctx.fillText( ix, ix, 10 ); }
+    }
+    for ( var iy = 0; iy < height; iy += rminor )
+    {
+        rctx.beginPath( );
+        rctx.moveTo( 0, iy );
+        rctx.lineTo( width, iy );
+        rctx.lineWidth = ( iy % rmajor == 0 ) ? 0.5 : 0.25;
+        rctx.stroke( );
+  //numbers      if ( iy % rmajor == 0 ) {rctx.fillText( iy, 0, iy + 10 );}
+    }
+    rctx.restore( );
+}
+function draw_node( rctx, rx, ry, fill) {
+  var x = rx;
+  var y = ry;
+  rctx.fillStyle = fill || "lightblue"
+  rctx.beginPath();
+  rctx.arc(x, y, 12, 0, 2 * Math.PI);
+  rctx.strokeStyle = "white";
+  rctx.lineWidth = 0.4;
+  rctx.fill();
+  rctx.stroke( );
+  rctx.restore( );
+};
+function draw_edge( rctx, rx1, ry1, rx2, ry2 ) {
+
+  rctx.strokeStyle = "white";
+  rctx.save();
+  rctx.beginPath();
+  rctx.moveTo(rx1, ry1);
+  rctx.lineTo(rx2, ry2);
+  rctx.stroke();
+  rctx.restore();
+
+};
+
+draw_grid( context, 10, 50, 'white', 'yellow' );
+let graph = new Graph();
+graph.generate_nodes();
+graph.print_adjacency();
+graph.BFS();
+
+</script>
+</html>
