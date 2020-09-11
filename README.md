@@ -3,7 +3,7 @@ Learning how to code through projects, guides, and classes.
 
 The following are included:
 
-DailyProgrammer, CodeForces, , HackerRank, LeetCode, Classes, and Personal Projects:
+DailyProgrammer, CodeForces, HackerRank, LeetCode, and Classes. Personal projects will get their own repository.
 
 https://www.reddit.com/r/dailyprogrammer/
 
@@ -38,6 +38,3 @@ CPSC 471 - Computer Communications
 CPSC 479 - High Performance Computing
 
 CPSC 483 - Machine Learning
-
-
-Personal Projects!
