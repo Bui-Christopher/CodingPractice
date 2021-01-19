@@ -33,8 +33,12 @@ CPSC 375 - Data Science and Big Data
 
 CPSC 440 - Computer Architecture
 
+CPSC 459 - Blockchain Technologies
+
 CPSC 471 - Computer Communications
 
 CPSC 479 - High Performance Computing
+
+CPSC 481 - Artificial Intelligence
 
 CPSC 483 - Machine Learning
